@@ -12,7 +12,7 @@ extras_require['full'] = [r for rs in extras_require.values() for r in rs]
 
 setup(
     name='pymicha',
-    version='0.0.1',
+    version='0.0.2',
     description='Misc. code that Micha thinks is useful',
     author='Micha Gorelick',
     author_email='mynameisfiber@gmail.com',
