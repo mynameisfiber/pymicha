@@ -10,7 +10,14 @@ extras_require = {
     "prob_ds": ["pybloom-live"],
     "extra": ["tqdm", "sklearn", "nltk"]
 }
-extras_require['full'] = [r for rs in extras_require.values() for r in rs]
+
+extras_require['full_noex'] = list({r
+                                    for k, rs in extras_require.items()
+                                    if k != 'extra'
+                                    for r in rs})
+extras_require['full'] = list({r
+                               for rs in extras_require.values()
+                               for r in rs})
 
 setup(
     name='pymicha',

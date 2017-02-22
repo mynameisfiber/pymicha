@@ -14,6 +14,7 @@ corresponding extra is sent in. Currently supported extras are:
 - `plot`: Plotting Tools
 - `prob_ds`: Probabilistic Datastructures
 - `extra`: Extra external installs that I find useful
+- `full_noex`: All the above without the extras
 - `full`: All the above
 
 The full install can be done with:

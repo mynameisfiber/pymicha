@@ -4,6 +4,6 @@ python:
   - "3.6"
   - "nightly"
 install:
-  - pip install .[full]
+  - pip install .[full_noex]
   - pip install pytest
 script: py.test
