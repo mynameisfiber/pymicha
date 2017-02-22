@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 from setuptools import setup
+from pymicha import __version__
+
 
 extras_require = {
     "keras": ["keras", "theano"],
@@ -12,7 +14,7 @@ extras_require['full'] = [r for rs in extras_require.values() for r in rs]
 
 setup(
     name='pymicha',
-    version='0.0.2',
+    version=__version__,
     description='Misc. code that Micha thinks is useful',
     author='Micha Gorelick',
     author_email='mynameisfiber@gmail.com',
