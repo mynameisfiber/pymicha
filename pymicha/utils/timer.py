@@ -1,19 +1,32 @@
 from functools import wraps
 from contextlib import contextmanager
 import time
+import inspect
+
+_DEBUG = False
 
 
 @contextmanager
-def Timer(name):
-    print("Starting task: " + name)
-    start = time.time()
+def Timer(name, debug=_DEBUG):
+    if not debug:
+        yield
+        return
     try:
+        start = time.time()
         yield
     except Exception as e:
         raise e
     finally:
-        dt = time.time() - start
-        print("Ended task: {}: {:0.4f}s".format(name, dt))
+        end = time.time()
+
+        path = [name]
+        for frame in inspect.stack()[2:]:
+            if frame[3] == "<module>":
+                break
+            path.append(frame[3])
+
+        path_str = ".".join(reversed(path))
+        print("Timer: {}: {:0.5f}s".format(path_str, end-start))
 
 
 def timer(fxn):
