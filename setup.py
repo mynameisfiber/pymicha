@@ -12,7 +12,7 @@ setup(
     download_url='https://github.com/mynameisfiber/pymicha/tarball/master',
     license="GNU Lesser General Public License v3 or later (LGPLv3+)",
 
-    packages=['countmemaybe'],
+    packages=['pymicha'],
 
     install_requires=[
         "numpy",
