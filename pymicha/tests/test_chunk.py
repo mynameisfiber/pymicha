@@ -1,4 +1,4 @@
-from . import chunk
+from ..utils import chunk
 
 
 def test_chunk_partial():

@@ -1,4 +1,4 @@
-from . import LimitedCache
+from ..datastructures import LimitedCache
 
 
 def test_limitcache():

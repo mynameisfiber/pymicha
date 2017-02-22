@@ -1,4 +1,4 @@
-from . import MultigramSearch
+from ..datastructures import MultigramSearch
 
 
 def test_multigramsearch():

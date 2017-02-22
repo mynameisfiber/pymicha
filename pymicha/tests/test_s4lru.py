@@ -1,4 +1,4 @@
-from . import S4LRU
+from ..datastructures import S4LRU
 
 
 def test_s4lru():
