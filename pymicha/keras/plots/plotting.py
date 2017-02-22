@@ -1,10 +1,11 @@
 import matplotlib.pyplot as plt
 import seaborn as sns  # NOQA
 import numpy as np
-import keras.backend as K
 
 import itertools
 from functools import reduce
+
+from ..utils import get_layer_activations
 
 
 def plot_train_history(histories):
@@ -55,15 +56,8 @@ def plot_confusion_matrix(cm, classes,
     plt.show()
 
 
-def _get_activations(model, X_batch):
-    get_activations = K.function([model.layers[0].input, K.learning_phase()],
-                                 [layer.output for layer in model.layers])
-    activations = get_activations([X_batch, 0])
-    return zip(model.layers, activations)
-
-
 def plot_activations(model, X):
-    activations = list(_get_activations(model, [X]))
+    activations = list(get_layer_activations(model, [X]))
     print([a[1].shape for a in activations])
     for layer, activation in activations[1:]:
         if len(activation.shape) == 4:
