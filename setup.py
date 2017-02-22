@@ -2,6 +2,14 @@
 
 from setuptools import setup
 
+extras_require = {
+    "keras": ["keras", "theano"],
+    "plot": ["seaborn", "matplotlib", "numpy"],
+    "prob_ds": ["pybloom-live"],
+    "extra": ["tqdm", "sklearn", "nltk"]
+}
+extras_require['full'] = [r for rs in extras_require.values() for r in rs]
+
 setup(
     name='pymicha',
     version='0.0.1',
@@ -13,13 +21,5 @@ setup(
     license="GNU Lesser General Public License v3 or later (LGPLv3+)",
 
     packages=['pymicha'],
-
-    install_requires=[
-        "numpy",
-    ],
-    extras_require={
-        "keras": ["keras", ],
-        "plot": ["seaborn", "matplotlib"],
-        "prob_ds": ["pybloom-live"],
-    }
+    extras_require=extras_require,
 )
