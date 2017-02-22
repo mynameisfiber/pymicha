@@ -1,1 +1,1 @@
-from layeractivations import get_layer_activations
+from .layeractivations import get_layer_activations

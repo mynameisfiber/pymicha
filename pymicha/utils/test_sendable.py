@@ -1,4 +1,4 @@
-from sendable import sendable
+from . import sendable
 
 
 def counter(maxcount):
