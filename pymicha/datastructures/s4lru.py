@@ -9,12 +9,20 @@ class S4LRU(object):
 
     [1] http://www.cs.cornell.edu/~qhuang/papers/sosp_fbanalysis.pdf
     """
-    def __init__(self, cache_size, levels=4):
+    def __init__(self, cache_size, levels=4, use_more='mem'):
         assert cache_size % levels == 0
-        self.last_level= levels - 1
+        assert use_more in ('mem', 'cpu')
+        self.cache_size = cache_size
+        self.last_level = levels - 1
         self.level_size = cache_size // levels
         self.queue_levels = [OrderedDict() for i in range(levels)]
-        self.lookup = dict()
+        if use_more == 'mem':
+            self.lookup = dict()
+        elif use_more == 'cpu':
+            self.lookup = Lookup(self.queue_levels)
+
+    def __len__(self):
+        return len(self.lookup)
 
     def get(self, key):
         level = self.lookup.get(key, None)
@@ -24,6 +32,16 @@ class S4LRU(object):
         else:
             raise KeyError(key)
 
+    def __getitem__(self, key):
+        return self.get(key)
+
+    def __contains__(self, key):
+        try:
+            self.get(key)
+            return True
+        except KeyError:
+            return False
+
     def put(self, key, value):
         level = self.lookup.get(key, None)
         if level is not None:
@@ -32,7 +50,10 @@ class S4LRU(object):
             new_level = self.last_level
             self.queue_levels[new_level][key] = value
             self.lookup[key] = new_level
-            self._clean_level(new_level)
+            self._clean_level(new_level, -1)
+
+    def __setitem__(self, key, value):
+        return self.put(key, value)
 
     def _upgrade(self, key, level=None):
         level = level or self.lookup[key]
@@ -43,20 +64,46 @@ class S4LRU(object):
             cur_level = level - 1
             self.queue_levels[cur_level][key] = value
             self.lookup[key] = cur_level
-            self._clean_level(cur_level)
+            self._clean_level(cur_level, +1)
         return value
 
-    def _clean_level(self, level):
+    def _clean_level(self, level, direction):
         num_moved = 0
         if len(self.queue_levels) <= level:
             return
         while len(self.queue_levels[level]) > self.level_size:
             key, value = self.queue_levels[level].popitem(False)
-            try:
-                self.queue_levels[level+1][key] = value
-                self.lookup[key] = value
+            if 0 <= level+direction < len(self.queue_levels):
+                self.queue_levels[level+direction][key] = value
+                self.lookup[key] = level+direction
                 num_moved += 1
-            except IndexError:
+            else:
                 self.lookup.pop(key)
-        if num_moved:
-            self._clean_level(level+1)
+        if level and num_moved:
+            self._clean_level(level-1, direction)
+
+
+class Lookup(object):
+    def __init__(self, queue_levels):
+        self.queue_levels = queue_levels
+
+    def get(self, key, default=None):
+        for i, level in enumerate(self.queue_levels):
+            if key in level:
+                return i
+        return default
+
+    def __getitem__(self, key):
+        level = self.get(key, None)
+        if level is None:
+            raise KeyError
+        return level
+
+    def __setitem__(self, key, value):
+        pass
+
+    def pop(self, *args, **kwargs):
+        pass
+
+    def __len__(self):
+        return sum(len(level) for level in self.queue_levels)

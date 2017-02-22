@@ -11,6 +11,6 @@ class LimitedCache(OrderedDict):
         super(LimitedCache, self).__init__()
 
     def __setitem__(self, key, value):
-        while len(self) > self.maxsize:
+        while len(self) >= self.maxsize:
             self.popitem(last=False)
         super(LimitedCache, self).__setitem__(key, value)
