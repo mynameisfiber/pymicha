@@ -1,5 +1,7 @@
 # PyMicha: Things Micha Uses
 
+![travis](https://travis-ci.org/mynameisfiber/pymicha.png?branch=master)
+
 > I reuse a lot of scripts... here's a simple way to have them all in one place
 > -Micha
 
