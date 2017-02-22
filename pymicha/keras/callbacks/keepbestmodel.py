@@ -2,6 +2,12 @@ from keras.callbacks import Callback
 
 
 class KeepBestModel(Callback):
+    """
+    Keras callback to be used with EarlyStopping. When setting a high patience
+    value for EarlyStopping, the resulting model object won't necissarily be
+    the best one. This will save the weight values for the best intermidate
+    models and reset the model back to the best state at the end of training
+    """
     def __init__(self, monitor):
         self.monitor = monitor
 

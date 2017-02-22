@@ -9,6 +9,16 @@ from ..utils import get_layer_activations
 
 
 def plot_train_history(histories):
+    """
+    Plot a dictionary of keras history objects. The keys of the dictionaries
+    acts as a way of naming and comparing the training performance of different
+    models.
+
+    >>> plot_train_history({
+        "small_model": history_small_model,
+        "large_model": history_large_model,
+    })
+    """
     fields = reduce(set.union, (set(h.history.keys())
                                 for h in histories.values()))
     subplots = plt.subplots(len(fields))
@@ -20,7 +30,8 @@ def plot_train_history(histories):
             if key in history.history:
                 ax.plot(history.epoch, history.history[key], label=name)
         ax.set_xlim(xmin=0, xmax=max_epoch)
-    plt.legend()
+    if len(histories) > 1:
+        plt.legend()
     plt.show()
 
 
@@ -57,6 +68,9 @@ def plot_confusion_matrix(cm, classes,
 
 
 def plot_activations(model, X):
+    """
+    Djanky function to plot output values of intermediate layers in the model
+    """
     activations = list(get_layer_activations(model, [X]))
     print([a[1].shape for a in activations])
     for layer, activation in activations[1:]:

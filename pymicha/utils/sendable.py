@@ -4,7 +4,7 @@ from itertools import repeat
 from collections import deque
 
 
-class Sendable(object):
+class _Sendable(object):
     def __init__(self, iterable):
         self.iterable = iterable
         self.queue = deque()
@@ -27,6 +27,17 @@ class Sendable(object):
 
 
 def sendable(iterable):
+    """
+    When looping over an generator, it's a pain to use the `send` feature to
+    push values back to the generator... this fixes that. `sendable` provides a
+    `send` function to send values back to the generator. When the `enque`
+    parameter is given to the `send` function, the result of the `send` will be
+    the value for the next loop.
+
+    >>> for send, item in senable(c):
+            print(item)
+            send(item % 5)
+    """
     iterable = iter(iterable)
-    _sendable = Sendable(iterable)
+    _sendable = _Sendable(iterable)
     yield from zip(repeat(_sendable.send), _sendable)
