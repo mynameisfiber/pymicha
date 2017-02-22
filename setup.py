@@ -20,5 +20,6 @@ setup(
     extras_require={
         "keras": ["keras", ],
         "plot": ["seaborn", "matplotlib"],
+        "prob_ds": ["pybloom-live"],
     }
 )
