@@ -3,11 +3,11 @@ from contextlib import contextmanager
 import time
 import inspect
 
-_DEBUG = False
+_DEBUG = True
 
 
 @contextmanager
-def Timer(name, debug=_DEBUG):
+def Timer(name=None, debug=_DEBUG):
     if not debug:
         yield
         return
@@ -19,7 +19,9 @@ def Timer(name, debug=_DEBUG):
     finally:
         end = time.time()
 
-        path = [name]
+        path = []
+        if name:
+            path.append(name)
         for frame in inspect.stack()[2:]:
             if frame[3] == "<module>":
                 break
