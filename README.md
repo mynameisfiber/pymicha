@@ -8,11 +8,11 @@
 To make things more portable, external dependencies are only installed if the
 corresponding extra is sent in. Currently supported extras are:
 
-    - `keras`: Tools for keras
-    - `plot`: Plotting Tools
-    - `prob_ds`: Probabilistic Datastructures
-    - `extra`: Extra external installs that I find useful
-    - `full`: All the above
+- `keras`: Tools for keras
+- `plot`: Plotting Tools
+- `prob_ds`: Probabilistic Datastructures
+- `extra`: Extra external installs that I find useful
+- `full`: All the above
 
 The full install can be done with:
 
