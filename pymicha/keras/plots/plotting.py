@@ -21,6 +21,7 @@ def plot_train_history(histories):
     """
     fields = reduce(set.union, (set(h.history.keys())
                                 for h in histories.values()))
+    fields = sorted(list(fields))
     subplots = plt.subplots(len(fields))
     max_epoch = max(max(h.epoch) for h in histories.values())
     for key, ax in zip(fields, subplots[1]):
