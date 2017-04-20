@@ -1,4 +1,24 @@
 from collections import OrderedDict
+from functools import wraps
+
+
+def s4lru_cache(cache_size, levels=4, use_more='mem'):
+    def decorator(fxn):
+        kwd_mark = object()
+        s4lru = S4LRU(cache_size, levels=levels,
+                      use_more=use_more)
+
+        @wraps(fxn)
+        def _(*args, **kwargs):
+            key = args + (kwd_mark,) + tuple(sorted(kwargs.items()))
+            try:
+                return s4lru.get(key)
+            except KeyError:
+                result = fxn(*args, **kwargs)
+                s4lru.put(key, result)
+                return result
+        return _
+    return decorator
 
 
 class S4LRU(object):
