@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from setuptools import setup
+from setuptools import setup, find_packages
 from pymicha import __version__
 
 
@@ -29,6 +29,6 @@ setup(
     download_url='https://github.com/mynameisfiber/pymicha/tarball/master',
     license="GNU Lesser General Public License v3 or later (LGPLv3+)",
 
-    packages=['pymicha'],
+    packages=find_packages(),
     extras_require=extras_require,
 )
