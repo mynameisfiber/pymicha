@@ -8,6 +8,7 @@ extras_require = {
     "keras": ["keras", "theano"],
     "plot": ["seaborn", "matplotlib", "numpy"],
     "prob_ds": ["pybloom-live"],
+    "ds": ["sharedmem"],
     "extra": ["tqdm", "sklearn", "nltk"]
 }
 
